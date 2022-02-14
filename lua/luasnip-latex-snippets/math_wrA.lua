@@ -6,7 +6,7 @@ local t = ls.text_node
 
 local frac_no_parens = {
   f(function(_, snip)
-    return "\\frac{" .. snip.captures[1] .. "}"
+    return string.format("\\frac{%s}", snip.captures[1])
   end, {}),
   t("{"),
   i(1),
@@ -63,7 +63,7 @@ local math_wrA = {
     name = "auto subscript",
   }, {
     f(function(_, snip)
-      return snip.captures[1] .. "_" .. snip.captures[2]
+      return string.format("%s_%s", snip.captures[1], snip.captures[2])
     end, {}),
     i(0),
   }),
@@ -74,7 +74,7 @@ local math_wrA = {
     name = "auto subscript 2",
   }, {
     f(function(_, snip)
-      return snip.captures[1] .. "_" .. "{" .. snip.captures[2] .. "}"
+      return string.format("%s_{%s}", snip.captures[1], snip.captures[2])
     end, {}),
     i(0),
   }),
