@@ -91,7 +91,7 @@ local math_iA = {
     { trig = "dint", name = "integral" },
     "\\int_{${1:-\\infty}}^{${2:\\infty}} ${3:${VISUAL}} $0"
   ),
-  ls.parser.parse_snippet({ trig = "==", name = "equals" }, "&= $1 \\"),
+  ls.parser.parse_snippet({ trig = "==", name = "equals" }, "&= $1 \\\\"),
   ls.parser.parse_snippet({ trig = "!=", name = "equals" }, "\\neq "),
   ls.parser.parse_snippet({ trig = "lim", name = "limit" }, "\\lim_{${1:n} \\to ${2:\\infty}} "),
   ls.parser.parse_snippet({ trig = "compl", name = "complement" }, "^{c}"),

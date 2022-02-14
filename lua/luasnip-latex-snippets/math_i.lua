@@ -54,10 +54,8 @@ local math_i = {
   ),
   ls.parser.parse_snippet(
     { trig = "lra", name = "leftangle rightangle" },
-    "\\left<${1:${VISUAL}} \\right>$0"
+    "\\left< ${1:${VISUAL}} \\right>$0"
   ),
-
-  ls.parser.parse_snippet({ trig = "/", name = "Fraction" }, "\\frac{$1}{$2}$0"),
 }
 
 return math_i

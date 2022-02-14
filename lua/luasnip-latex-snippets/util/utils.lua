@@ -43,7 +43,7 @@ M.comment = function()
 end
 
 M.env = function(name)
-  local x, y = unpack(vim.eval("vimtex#env#is_inside('" + name + "')"))
+  local x, y = unpack(vim.fn["vimtex#env#is_inside"](name))
   return x ~= "0" and y ~= "0"
 end
 

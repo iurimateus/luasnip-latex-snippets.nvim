@@ -15,11 +15,6 @@ M.init = function()
   ls.snippets = {
     tex = {
       ls.parser.parse_snippet(
-        { trig = "desc", name = "Description" },
-        "\\begin{description}\n\t\\item[$1] $0 \n\\end{description}"
-      ),
-
-      ls.parser.parse_snippet(
         { trig = "pac", name = "Package" },
         "\\usepackage[${1:options}]{${2:package}}$0"
       ),
@@ -58,7 +53,7 @@ M.init = function()
   end
 
   for _, snip in ipairs(require("luasnip-latex-snippets/math_iA")) do
-    snip.condition = pipe({ is_math })
+    snip.condition = pipe({ is_math, no_backslash })
     snip.wordTrig = false
     table.insert(ls.autosnippets.tex, snip)
   end
