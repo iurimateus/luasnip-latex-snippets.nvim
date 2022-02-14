@@ -108,28 +108,6 @@ local math_wrA = {
     regTrig = true,
     name = "Fraction no ()",
   }, vim.deepcopy(frac_no_parens)),
-  s(
-    {
-      trig = "(%a)bar",
-      wordTrig = false,
-      regTrig = true,
-      name = "bar",
-    },
-    f(function(_, snip)
-      return "\\overline{" .. snip.captures[1] .. "} "
-    end, {})
-  ),
-  s(
-    {
-      trig = "(%a)hat",
-      wordTrig = false,
-      regTrig = true,
-      name = "hat",
-    },
-    f(function(_, snip)
-      return "\\hat{" .. snip.captures[1] .. "} "
-    end, {})
-  ),
 }
 
 return math_wrA

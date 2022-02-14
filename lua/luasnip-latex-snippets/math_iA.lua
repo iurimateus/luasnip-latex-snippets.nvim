@@ -1,6 +1,31 @@
 local ls = require("luasnip")
+local s = ls.snippet
+local f = ls.function_node
 
 local math_iA = {
+  s(
+    {
+      trig = "(%a)bar",
+      wordTrig = false,
+      regTrig = true,
+      name = "bar",
+    },
+    f(function(_, snip)
+      return string.format("\\overline{%s}", snip.captures[1])
+    end, {})
+  ),
+  s(
+    {
+      trig = "(%a)hat",
+      wordTrig = false,
+      regTrig = true,
+      name = "hat",
+    },
+    f(function(_, snip)
+      return string.format("\\hat{%s}", snip.captures[1])
+    end, {})
+  ),
+
   ls.parser.parse_snippet({ trig = "td", name = "to the ... power ^{}" }, "^{$1}$0 "),
   ls.parser.parse_snippet({ trig = "rd", name = "to the ... power ^{()}" }, "^{($1)}$0 "),
   ls.parser.parse_snippet({ trig = "cb", name = "Cube ^3" }, "^3 "),
