@@ -42,6 +42,12 @@ M.init = function()
     table.insert(ls.autosnippets.tex, snip)
   end
 
+  for _, snip in ipairs(require("luasnip-latex-snippets/math_rA_no_backslash")) do
+    snip.wordTrig = false
+    snip.condition = pipe({ is_math, no_backslash })
+    table.insert(ls.autosnippets.tex, snip)
+  end
+
   for _, snip in ipairs(require("luasnip-latex-snippets/normal_wA")) do
     snip.condition = pipe({ not_math })
     table.insert(ls.autosnippets.tex, snip)
