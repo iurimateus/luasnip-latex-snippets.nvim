@@ -104,7 +104,7 @@ local math_wrA = {
   }, vim.deepcopy(frac_no_parens)),
 
   s({
-    trig = "(%d+)/",
+    trig = "(%w+)/",
     regTrig = true,
     name = "Fraction no ()",
   }, vim.deepcopy(frac_no_parens)),
