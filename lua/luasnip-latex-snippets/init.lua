@@ -38,12 +38,14 @@ M.init = function()
   }
 
   for _, snip in ipairs(require("luasnip-latex-snippets/math_wRA_no_backslash")) do
+    snip.regTrig = true
     snip.condition = pipe({ is_math, no_backslash })
     table.insert(ls.autosnippets.tex, snip)
   end
 
   for _, snip in ipairs(require("luasnip-latex-snippets/math_rA_no_backslash")) do
     snip.wordTrig = false
+    snip.regTrig = true
     snip.condition = pipe({ is_math, no_backslash })
     table.insert(ls.autosnippets.tex, snip)
   end
@@ -54,17 +56,18 @@ M.init = function()
   end
 
   for _, snip in ipairs(require("luasnip-latex-snippets/math_wrA")) do
+    snip.regTrig = true
     snip.condition = pipe({ is_math })
     table.insert(ls.autosnippets.tex, snip)
   end
 
-  for _, snip in ipairs(require("luasnip-latex-snippets/math_iA")) do
+  for _, snip in ipairs(require("luasnip-latex-snippets/math_wA_no_backslash")) do
     snip.condition = pipe({ is_math, no_backslash })
-    snip.wordTrig = false
     table.insert(ls.autosnippets.tex, snip)
   end
 
-  for _, snip in ipairs(require("luasnip-latex-snippets/math_wA_no_backslash")) do
+  for _, snip in ipairs(require("luasnip-latex-snippets/math_iA")) do
+    snip.wordTrig = false
     snip.condition = pipe({ is_math, no_backslash })
     table.insert(ls.autosnippets.tex, snip)
   end

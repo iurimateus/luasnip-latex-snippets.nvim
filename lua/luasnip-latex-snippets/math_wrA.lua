@@ -18,7 +18,6 @@ local frac = s({
   priority = 1000,
   trig = ".*%)/",
   wordTrig = true,
-  regTrig = true,
   name = "() frac",
 }, {
   f(function(_, snip)
@@ -59,7 +58,6 @@ local math_wrA = {
 
   s({
     trig = "([%a])(%d)",
-    regTrig = true,
     name = "auto subscript",
   }, {
     f(function(_, snip)
@@ -70,7 +68,6 @@ local math_wrA = {
 
   s({
     trig = "([%a])_(%d%d)",
-    regTrig = true,
     name = "auto subscript 2",
   }, {
     f(function(_, snip)
@@ -81,31 +78,26 @@ local math_wrA = {
 
   s({
     trig = "([%w]+\\?^%w)/",
-    regTrig = true,
     name = "Fraction no ()",
   }, vim.deepcopy(frac_no_parens)),
 
   s({
     trig = "([%w]+\\?_%w)/",
-    regTrig = true,
     name = "Fraction no ()",
   }, vim.deepcopy(frac_no_parens)),
 
   s({
     trig = "([%w]+\\?^{%w*})/",
-    regTrig = true,
     name = "Fraction no ()",
   }, vim.deepcopy(frac_no_parens)),
 
   s({
     trig = "([%w]+\\?_{%w*})/",
-    regTrig = true,
     name = "Fraction no ()",
   }, vim.deepcopy(frac_no_parens)),
 
   s({
     trig = "(%w+)/",
-    regTrig = true,
     name = "Fraction no ()",
   }, vim.deepcopy(frac_no_parens)),
 }

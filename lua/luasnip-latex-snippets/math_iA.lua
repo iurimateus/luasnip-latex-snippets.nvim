@@ -77,10 +77,6 @@ local math_iA = {
 
   ls.parser.parse_snippet({ trig = "tt", name = "text" }, "\\text{$1}$0"),
   ls.parser.parse_snippet({ trig = "stt", name = "text subscript" }, "_\\text{$1} $0"),
-  -- ls.parser.parse_snippet({ trig = "sts", name = "text subscript" }, "_\\text{$1} $0"),
-
-  ls.parser.parse_snippet({ trig = "st", name = "text" }, "\\text{s.t.}"),
-  -- ls.parser.parse_snippet({ trig = "tq", name = "text" }, "\\text{tal que}"),
 
   ls.parser.parse_snippet({ trig = "xx", name = "cross" }, "\\times "),
   ls.parser.parse_snippet({ trig = "**", name = "cdot" }, "\\cdot "),
@@ -101,10 +97,6 @@ local math_iA = {
   ls.parser.parse_snippet({ trig = "||", name = "mid" }, " \\mid "),
   ls.parser.parse_snippet({ trig = "Nn", name = "cap" }, "\\cap "),
   ls.parser.parse_snippet(
-    { trig = "pmat", name = "pmat" },
-    "\\begin{pmatrix} $1 \\end{pmatrix} $0"
-  ),
-  ls.parser.parse_snippet(
     { trig = "bmat", name = "bmat" },
     "\\begin{bmatrix} $1 \\end{bmatrix} $0"
   ),
@@ -118,7 +110,6 @@ local math_iA = {
   ),
   ls.parser.parse_snippet({ trig = "==", name = "equals" }, "&= $1 \\\\"),
   ls.parser.parse_snippet({ trig = "!=", name = "equals" }, "\\neq "),
-  ls.parser.parse_snippet({ trig = "lim", name = "limit" }, "\\lim_{${1:n} \\to ${2:\\infty}} "),
   ls.parser.parse_snippet({ trig = "compl", name = "complement" }, "^{c}"),
   ls.parser.parse_snippet({ trig = "__", name = "subscript" }, "_{$1}$0"),
   ls.parser.parse_snippet({ trig = "=>", name = "implies" }, "\\implies"),
@@ -132,11 +123,11 @@ local math_iA = {
   -- ls.parser.parse_snippet({ trig = "lrb", name = "left\\{ right\\}" }, "\\left\\{ ${1:${VISUAL}} \\right\\} $0"),
   ls.parser.parse_snippet({ trig = "conj", name = "conjugate" }, "\\overline{$1}$0"),
 
-  ls.parser.parse_snippet({ trig = "asin", name = "arcsin" }, "\\arcsin"),
-  ls.parser.parse_snippet({ trig = "acos", name = "arccos" }, "\\arccos"),
-  ls.parser.parse_snippet({ trig = "atan", name = "arctan" }, "\\arctan"),
-  ls.parser.parse_snippet({ trig = "asec", name = "arcsec" }, "\\arcsec"),
-  ls.parser.parse_snippet({ trig = "acsc", name = "arccsc" }, "\\arccsc"),
+  ls.parser.parse_snippet({ trig = "asin", name = "arcsin" }, "\\arcsin "),
+  ls.parser.parse_snippet({ trig = "acos", name = "arccos" }, "\\arccos "),
+  ls.parser.parse_snippet({ trig = "atan", name = "arctan" }, "\\arctan "),
+  ls.parser.parse_snippet({ trig = "asec", name = "arcsec" }, "\\arcsec "),
+  ls.parser.parse_snippet({ trig = "acsc", name = "arccsc" }, "\\arccsc "),
   -- Postfix
   --
   ls.parser.parse_snippet({ trig = "ln", name = "ln postfix" }, "\\ln "),
