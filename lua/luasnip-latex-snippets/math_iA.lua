@@ -45,7 +45,10 @@ local math_iA = {
 
   ls.parser.parse_snippet({ trig = "notin", name = "not in " }, "\\not\\in "),
   ls.parser.parse_snippet({ trig = "cc", name = "subset" }, "\\subset "),
-  ls.parser.parse_snippet({ trig = "sq", name = "\\sqrt{}" }, "\\sqrt{${1:${VISUAL}}} $0"),
+  ls.parser.parse_snippet(
+    { trig = "sq", name = "\\sqrt{}" },
+    "\\sqrt{${1:${TM_SELECTED_TEXT}}} $0"
+  ),
   ls.parser.parse_snippet({ trig = "<->", name = "leftrightarrow" }, "\\leftrightarrow"),
   ls.parser.parse_snippet({ trig = "...", name = "ldots" }, "\\ldots"),
   ls.parser.parse_snippet({ trig = "!>", name = "mapsto" }, "\\mapsto "),
@@ -106,7 +109,7 @@ local math_iA = {
   ls.parser.parse_snippet({ trig = "lll", name = "l" }, "\\ell"),
   ls.parser.parse_snippet(
     { trig = "dint", name = "integral" },
-    "\\int_{${1:-\\infty}}^{${2:\\infty}} ${3:${VISUAL}} $0"
+    "\\int_{${1:-\\infty}}^{${2:\\infty}} ${3:${TM_SELECTED_TEXT}} $0"
   ),
   ls.parser.parse_snippet({ trig = "==", name = "equals" }, "&= $1 \\\\"),
   ls.parser.parse_snippet({ trig = "!=", name = "equals" }, "\\neq "),
@@ -120,7 +123,7 @@ local math_iA = {
   ls.parser.parse_snippet({ trig = ">=", name = "geq" }, "\\ge "),
   ls.parser.parse_snippet({ trig = "invs", name = "inverse" }, "^{-1}"),
   ls.parser.parse_snippet({ trig = "~~", name = "~" }, "\\sim "),
-  -- ls.parser.parse_snippet({ trig = "lrb", name = "left\\{ right\\}" }, "\\left\\{ ${1:${VISUAL}} \\right\\} $0"),
+  -- ls.parser.parse_snippet({ trig = "lrb", name = "left\\{ right\\}" }, "\\left\\{ ${1:${TM_SELECTED_TEXT}} \\right\\} $0"),
   ls.parser.parse_snippet({ trig = "conj", name = "conjugate" }, "\\overline{$1}$0"),
 
   ls.parser.parse_snippet({ trig = "asin", name = "arcsin" }, "\\arcsin "),

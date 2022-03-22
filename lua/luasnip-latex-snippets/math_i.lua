@@ -19,7 +19,7 @@ local math_i = {
 
   ls.parser.parse_snippet(
     { trig = "prod", name = "product" },
-    "\\prod_{${1:n=${2:1}}}^{${3:\\infty}} ${4:${VISUAL}} $0"
+    "\\prod_{${1:n=${2:1}}}^{${3:\\infty}} ${4:${TM_SELECTED_TEXT}} $0"
   ),
 
   ls.parser.parse_snippet(
@@ -38,28 +38,28 @@ local math_i = {
 
   ls.parser.parse_snippet(
     { trig = "lr", name = "left( right)" },
-    "\\left( ${1:${VISUAL}} \\right) $0"
+    "\\left( ${1:${TM_SELECTED_TEXT}} \\right) $0"
   ),
   ls.parser.parse_snippet(
     { trig = "lr(", name = "left( right)" },
-    "\\left( ${1:${VISUAL}} \\right) $0"
+    "\\left( ${1:${TM_SELECTED_TEXT}} \\right) $0"
   ),
   ls.parser.parse_snippet(
     { trig = "lr|", name = "left| right|" },
-    "\\left| ${1:${VISUAL}} \\right| $0"
+    "\\left| ${1:${TM_SELECTED_TEXT}} \\right| $0"
   ),
-  -- ls.parser.parse_snippet({ trig = "lrb", name = "left{ right}" }, "\\left{ ${1:${VISUAL}} \\right} $0"),
+  -- ls.parser.parse_snippet({ trig = "lrb", name = "left{ right}" }, "\\left{ ${1:${TM_SELECTED_TEXT}} \\right} $0"),
   ls.parser.parse_snippet(
     { trig = "lr{", name = "left{ right}" },
-    "\\left{ ${1:${VISUAL}} \\right} $0"
+    "\\left{ ${1:${TM_SELECTED_TEXT}} \\right} $0"
   ),
   ls.parser.parse_snippet(
     { trig = "lr[", name = "left[ right]" },
-    "\\left[ ${1:${VISUAL}} \\right] $0"
+    "\\left[ ${1:${TM_SELECTED_TEXT}} \\right] $0"
   ),
   ls.parser.parse_snippet(
     { trig = "lra", name = "leftangle rightangle" },
-    "\\left< ${1:${VISUAL}} \\right>$0"
+    "\\left< ${1:${TM_SELECTED_TEXT}} \\right>$0"
   ),
 }
 
