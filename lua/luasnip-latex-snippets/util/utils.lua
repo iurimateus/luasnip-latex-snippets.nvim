@@ -25,9 +25,9 @@ M.pipe = function(fns)
   end
 end
 
-M.no_backslash = function()
-  local line_to_cursor = require("luasnip.util.util").get_current_line_to_cursor()
-  return not string.match(line_to_cursor, "\\%w+$")
+M.no_backslash = function(line_to_cursor, matched_trigger)
+  local start = line_to_cursor:find(matched_trigger .. "$")
+  return not line_to_cursor:match("\\" .. matched_trigger, start - 1)
 end
 
 M.is_math = function()
