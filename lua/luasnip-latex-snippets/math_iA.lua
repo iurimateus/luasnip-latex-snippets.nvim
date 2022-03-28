@@ -1,6 +1,7 @@
 local ls = require("luasnip")
 local s = ls.snippet
 local f = ls.function_node
+local with_priority = require("luasnip-latex-snippets.util.utils").with_priority
 
 local math_iA = {
   s(
@@ -9,6 +10,7 @@ local math_iA = {
       wordTrig = false,
       regTrig = true,
       name = "bar",
+      priority = 100,
     },
     f(function(_, snip)
       return string.format("\\overline{%s}", snip.captures[1])
@@ -20,11 +22,15 @@ local math_iA = {
       wordTrig = false,
       regTrig = true,
       name = "hat",
+      priority = 100,
     },
     f(function(_, snip)
       return string.format("\\hat{%s}", snip.captures[1])
     end, {})
   ),
+
+  with_priority(ls.parser.parse_snippet({ trig = "hat", name = "hat" }, "\\hat{$1}$0 "), 10),
+  with_priority(ls.parser.parse_snippet({ trig = "bar", name = "bar" }, "\\overline{$1}$0 "), 10),
 
   ls.parser.parse_snippet({ trig = "td", name = "to the ... power ^{}" }, "^{$1}$0 "),
   ls.parser.parse_snippet({ trig = "rd", name = "to the ... power ^{()}" }, "^{($1)}$0 "),
@@ -44,13 +50,18 @@ local math_iA = {
   ls.parser.parse_snippet({ trig = "R0+", name = "R0+" }, "\\R_0^+"),
 
   ls.parser.parse_snippet({ trig = "notin", name = "not in " }, "\\not\\in "),
+
   ls.parser.parse_snippet({ trig = "cc", name = "subset" }, "\\subset "),
+
   ls.parser.parse_snippet(
     { trig = "sq", name = "\\sqrt{}" },
     "\\sqrt{${1:${TM_SELECTED_TEXT}}} $0"
   ),
-  ls.parser.parse_snippet({ trig = "<->", name = "leftrightarrow" }, "\\leftrightarrow"),
-  ls.parser.parse_snippet({ trig = "...", name = "ldots" }, "\\ldots"),
+  with_priority(
+    ls.parser.parse_snippet({ trig = "<->", name = "leftrightarrow" }, "\\leftrightarrow"),
+    200
+  ),
+  with_priority(ls.parser.parse_snippet({ trig = "...", name = "ldots" }, "\\ldots "), 100),
   ls.parser.parse_snippet({ trig = "!>", name = "mapsto" }, "\\mapsto "),
   ls.parser.parse_snippet({ trig = "iff", name = "iff" }, "\\iff"),
   ls.parser.parse_snippet({ trig = "ooo", name = "\\infty" }, "\\infty"),
@@ -67,7 +78,8 @@ local math_iA = {
   ls.parser.parse_snippet({ trig = "mcal", name = "mathcal" }, "\\mathcal{$1}$0"),
   ls.parser.parse_snippet({ trig = "//", name = "Fraction" }, "\\frac{$1}{$2}$0"),
   ls.parser.parse_snippet({ trig = "\\\\\\", name = "setminus" }, "\\setminus"),
-  ls.parser.parse_snippet({ trig = "->", name = "to" }, "\\to "),
+  with_priority(ls.parser.parse_snippet({ trig = "->", name = "to" }, "\\to "), 100),
+
   ls.parser.parse_snippet(
     { trig = "letw", name = "let omega" },
     "Let $\\Omega \\subset \\C$ be open."
@@ -82,14 +94,15 @@ local math_iA = {
   ls.parser.parse_snippet({ trig = "stt", name = "text subscript" }, "_\\text{$1} $0"),
 
   ls.parser.parse_snippet({ trig = "xx", name = "cross" }, "\\times "),
-  ls.parser.parse_snippet({ trig = "**", name = "cdot" }, "\\cdot "),
+
+  with_priority(ls.parser.parse_snippet({ trig = "**", name = "cdot" }, "\\cdot "), 100),
+
   ls.parser.parse_snippet({ trig = "SI", name = "SI" }, "\\SI{$1}{$2}"),
   ls.parser.parse_snippet({ trig = "inn", name = "in " }, "\\in "),
   ls.parser.parse_snippet(
     { trig = "cvec", name = "column vector" },
     "\\begin{pmatrix} ${1:x}_${2:1}\\\\ \\vdots\\\\ $1_${2:n} \\end{pmatrix}"
   ),
-  ls.parser.parse_snippet({ trig = "bar", name = "bar" }, "\\overline{$1}$0"),
   ls.parser.parse_snippet({ trig = "ceil", name = "ceil" }, "\\left\\lceil $1 \\right\\rceil $0"),
   ls.parser.parse_snippet({ trig = "OO", name = "emptyset" }, "\\O"),
   ls.parser.parse_snippet({ trig = "RR", name = "real" }, "\\R"),
@@ -107,10 +120,14 @@ local math_iA = {
   ls.parser.parse_snippet({ trig = "DD", name = "D" }, "\\mathbb{D}"),
   ls.parser.parse_snippet({ trig = "HH", name = "H" }, "\\mathbb{H}"),
   ls.parser.parse_snippet({ trig = "lll", name = "l" }, "\\ell"),
-  ls.parser.parse_snippet(
-    { trig = "dint", name = "integral" },
-    "\\int_{${1:-\\infty}}^{${2:\\infty}} ${3:${TM_SELECTED_TEXT}} $0"
+  with_priority(
+    ls.parser.parse_snippet(
+      { trig = "dint", name = "integral" },
+      "\\int_{${1:-\\infty}}^{${2:\\infty}} ${3:${TM_SELECTED_TEXT}} $0"
+    ),
+    300
   ),
+
   ls.parser.parse_snippet({ trig = "==", name = "equals" }, "&= $1 \\\\"),
   ls.parser.parse_snippet({ trig = "!=", name = "equals" }, "\\neq "),
   ls.parser.parse_snippet({ trig = "compl", name = "complement" }, "^{c}"),
@@ -118,31 +135,13 @@ local math_iA = {
   ls.parser.parse_snippet({ trig = "=>", name = "implies" }, "\\implies"),
   ls.parser.parse_snippet({ trig = "=<", name = "implied by" }, "\\impliedby"),
   ls.parser.parse_snippet({ trig = "<<", name = "<<" }, "\\ll"),
-  ls.parser.parse_snippet({ trig = "hat", name = "hat" }, "\\hat{$1}$0"),
+
   ls.parser.parse_snippet({ trig = "<=", name = "leq" }, "\\le "),
   ls.parser.parse_snippet({ trig = ">=", name = "geq" }, "\\ge "),
   ls.parser.parse_snippet({ trig = "invs", name = "inverse" }, "^{-1}"),
   ls.parser.parse_snippet({ trig = "~~", name = "~" }, "\\sim "),
   -- ls.parser.parse_snippet({ trig = "lrb", name = "left\\{ right\\}" }, "\\left\\{ ${1:${TM_SELECTED_TEXT}} \\right\\} $0"),
   ls.parser.parse_snippet({ trig = "conj", name = "conjugate" }, "\\overline{$1}$0"),
-
-  ls.parser.parse_snippet({ trig = "asin", name = "arcsin" }, "\\arcsin "),
-  ls.parser.parse_snippet({ trig = "acos", name = "arccos" }, "\\arccos "),
-  ls.parser.parse_snippet({ trig = "atan", name = "arctan" }, "\\arctan "),
-  ls.parser.parse_snippet({ trig = "asec", name = "arcsec" }, "\\arcsec "),
-  ls.parser.parse_snippet({ trig = "acsc", name = "arccsc" }, "\\arccsc "),
-  -- Postfix
-  --
-  ls.parser.parse_snippet({ trig = "ln", name = "ln postfix" }, "\\ln "),
-  ls.parser.parse_snippet({ trig = "log", name = "log postfix" }, "\\log "),
-  ls.parser.parse_snippet({ trig = "exp", name = "exp postfix" }, "\\exp "),
-  ls.parser.parse_snippet({ trig = "star", name = "star postfix" }, "\\star "),
-  ls.parser.parse_snippet({ trig = "perp", name = "perp postfix" }, "\\perp "),
-  ls.parser.parse_snippet({ trig = "pm", name = "pm postfix" }, "\\pm "),
-  ls.parser.parse_snippet({ trig = "int", name = "int postfix" }, "\\int "),
-
-  ls.parser.parse_snippet({ trig = "qquad", name = "maths whitespace qquad" }, "\\qquad "),
-  ls.parser.parse_snippet({ trig = "quad", name = "maths whitespace qquad" }, "\\qquad "),
 }
 
 return math_iA

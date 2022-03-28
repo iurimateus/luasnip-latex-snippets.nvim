@@ -47,4 +47,9 @@ M.env = function(name)
   return x ~= "0" and y ~= "0"
 end
 
+M.with_priority = function(snip, priority)
+  snip.priority = priority
+  return snip
+end
+
 return M

@@ -28,7 +28,7 @@ M.init = function()
   for _, snip in ipairs(require("luasnip-latex-snippets/math_i")) do
     snip.condition = pipe({ is_math })
     snip.wordTrig = false
-    ls.add_snippets("tex", { snip })
+    ls.add_snippets("tex", { snip }, { default_priority = 0 })
   end
 
   local autosnippets = {}
@@ -78,7 +78,10 @@ M.init = function()
     table.insert(autosnippets, snip)
   end
 
-  ls.add_snippets("tex", autosnippets, { type = "autosnippets" })
+  ls.add_snippets("tex", autosnippets, {
+    type = "autosnippets",
+    default_priority = 0,
+  })
 
   -- "Basic template": {
   --     "body": [
