@@ -64,6 +64,12 @@ M.init = function()
 
   for _, snip in ipairs(require("luasnip-latex-snippets/math_iA")) do
     snip.wordTrig = false
+    snip.condition = pipe({ is_math })
+    table.insert(autosnippets, snip)
+  end
+
+  for _, snip in ipairs(require("luasnip-latex-snippets/math_iA_no_backslash")) do
+    snip.wordTrig = false
     snip.condition = pipe({ is_math, no_backslash })
     table.insert(autosnippets, snip)
   end

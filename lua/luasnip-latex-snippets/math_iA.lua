@@ -29,9 +29,6 @@ local math_iA = {
     end, {})
   ),
 
-  with_priority(ls.parser.parse_snippet({ trig = "hat", name = "hat" }, "\\hat{$1}$0 "), 10),
-  with_priority(ls.parser.parse_snippet({ trig = "bar", name = "bar" }, "\\overline{$1}$0 "), 10),
-
   ls.parser.parse_snippet({ trig = "td", name = "to the ... power ^{}" }, "^{$1}$0 "),
   ls.parser.parse_snippet({ trig = "rd", name = "to the ... power ^{()}" }, "^{($1)}$0 "),
   ls.parser.parse_snippet({ trig = "cb", name = "Cube ^3" }, "^3 "),
@@ -53,10 +50,6 @@ local math_iA = {
 
   ls.parser.parse_snippet({ trig = "cc", name = "subset" }, "\\subset "),
 
-  ls.parser.parse_snippet(
-    { trig = "sq", name = "\\sqrt{}" },
-    "\\sqrt{${1:${TM_SELECTED_TEXT}}} $0"
-  ),
   with_priority(
     ls.parser.parse_snippet({ trig = "<->", name = "leftrightarrow" }, "\\leftrightarrow"),
     200
@@ -97,8 +90,6 @@ local math_iA = {
 
   with_priority(ls.parser.parse_snippet({ trig = "**", name = "cdot" }, "\\cdot "), 100),
 
-  ls.parser.parse_snippet({ trig = "SI", name = "SI" }, "\\SI{$1}{$2}"),
-  ls.parser.parse_snippet({ trig = "inn", name = "in " }, "\\in "),
   ls.parser.parse_snippet(
     { trig = "cvec", name = "column vector" },
     "\\begin{pmatrix} ${1:x}_${2:1}\\\\ \\vdots\\\\ $1_${2:n} \\end{pmatrix}"
