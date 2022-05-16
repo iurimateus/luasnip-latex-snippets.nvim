@@ -58,6 +58,7 @@ local math_iA = {
   ls.parser.parse_snippet({ trig = "!>", name = "mapsto" }, "\\mapsto "),
   ls.parser.parse_snippet({ trig = "iff", name = "iff" }, "\\iff"),
   ls.parser.parse_snippet({ trig = "ooo", name = "\\infty" }, "\\infty"),
+  ls.parser.parse_snippet({ trig = "inf", name = "\\infty" }, "\\infty"),
   ls.parser.parse_snippet(
     { trig = "rij", name = "mrij" },
     "(${1:x}_${2:n})_{${3:$2}\\in${4:\\N}}$0"
@@ -120,7 +121,7 @@ local math_iA = {
   ),
 
   ls.parser.parse_snippet({ trig = "==", name = "equals" }, "&= $1 \\\\"),
-  ls.parser.parse_snippet({ trig = "!=", name = "equals" }, "\\neq "),
+  ls.parser.parse_snippet({ trig = "!=", name = "not equals" }, "\\neq "),
   ls.parser.parse_snippet({ trig = "compl", name = "complement" }, "^{c}"),
   ls.parser.parse_snippet({ trig = "__", name = "subscript" }, "_{$1}$0"),
   ls.parser.parse_snippet({ trig = "=>", name = "implies" }, "\\implies"),

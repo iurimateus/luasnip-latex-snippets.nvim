@@ -26,16 +26,16 @@ end
 
 local greek_postfix_completions = function()
   local re =
-    "[aA]lpha|[bB]eta|[gG]amma|[dD]elta|[eE]psilon|[zZ]eta|[tT]heta|[iI]ota|[kK]appa|[lL]ambda|[mM]u|[nN]u|[pP]i|[rR]ho|sigma|[tT]au|[pP]hi|[cC]hi|[pP]si|[oO]mega"
+  "[aA]lpha|[bB]eta|[cC]hi|[dD]elta|[eE]psilon|[eE]ta|[gG]amma[iI]ota|[kK]appa|[lL]ambda|[mM]u|[nN]u|[oO]mega|[pP]hi|[pP]i|[pP]si|[rR]ho|sigma|[tT]au|[tT]heta|[zZ]eta"
 
   local build = build_with_priority(postfix_trig, postfix_node, 200)
   return vim.tbl_map(build, vim.split(re, "|"))
 end
 
 local postfix_completions = function()
-  local re = "sin|cos|tan|csc|sec|cot|ln|log|exp|star|perp|pm|int"
+  local re = "sin|cos|tan|csc|sec|cot|ln|log|exp|star|perp|int"
 
-  local build = build_with_priority(postfix_trig, postfix_node, 100)
+  local build = build_with_priority(postfix_trig, postfix_node)
   return vim.tbl_map(build, vim.split(re, "|"))
 end
 
