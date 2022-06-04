@@ -29,11 +29,20 @@ M.no_backslash = function(line_to_cursor, matched_trigger)
   return not line_to_cursor:find("\\%a+$", -#line_to_cursor)
 end
 
-M.is_math = function()
+local ts_utils = require("luasnip-latex-snippets.util.ts_utils")
+M.is_math = function(treesitter)
+  if treesitter then
+    return ts_utils.in_mathzone()
+  end
+
   return vim.fn["vimtex#syntax#in_mathzone"]() == 1
 end
 
-M.not_math = function()
+M.not_math = function(treesitter)
+  if treesitter then
+    return ts_utils.in_text(true)
+  end
+
   return not M.is_math()
 end
 
@@ -49,6 +58,12 @@ end
 M.with_priority = function(snip, priority)
   snip.priority = priority
   return snip
+end
+
+M.with_opts = function(fn, opts)
+  return function()
+    return fn(opts)
+  end
 end
 
 return M

@@ -4,12 +4,19 @@ local conds = require("luasnip.extras.expand_conditions")
 local utils = require("luasnip-latex-snippets.util.utils")
 local pipe = utils.pipe
 local no_backslash = utils.no_backslash
-local is_math = utils.is_math
-local not_math = utils.not_math
 
 local M = {}
 
-M.init = function()
+local default_opts = {
+  use_treesitter = false,
+}
+
+M.setup = function(opts)
+  opts = vim.tbl_deep_extend("force", default_opts, opts or {})
+
+  local is_math = utils.with_opts(utils.is_math, opts.use_treesitter)
+  local not_math = utils.with_opts(utils.not_math, opts.use_treesitter)
+
   ls.config.setup({ enable_autosnippets = true })
 
   ls.add_snippets("tex", {

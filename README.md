@@ -12,7 +12,8 @@ UltiSnips felt unbearably slow. See
 ## Installation
 
 Depends on [vimtex](https://github.com/lervag/vimtex) to determine if the
-cursor is within math mode.
+cursor is within math mode. Alternatively, you can use
+[nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) (experimental) by passing `{ use_treesitter = true }` to the setup call.
 
 Can be installed like any neovim plugin. If using
 [wbthomason/packer.nvim](https://github.com/wbthomason/packer.nvim):
@@ -20,7 +21,13 @@ Can be installed like any neovim plugin. If using
 ```lua
 use {
   "iurimateus/luasnip-latex-snippets.nvim",
+  -- replace "lervag/vimtex" with "nvim-treesitter/nvim-treesitter" if you're
+  -- using treesitter.
   requires = { "L3MON4D3/LuaSnip", "lervag/vimtex" },
+  config = function()
+    require'luasnip-latex-snippets'.setup()
+    -- or setup({ use_treesitter = true })
+  end,
   ft = "tex",
 }
 ```
@@ -49,7 +56,6 @@ limitations. In particular, it lacks positive lookbehind and alternation `|`.
 The first which is used in postfix completions (e.g. match `delta`, but not
 `\delta`) and can be handled with simple functions. The second was solved by
 splitting and/or partially rewriting the expressions.
-
 
 ## Roadmap
 
