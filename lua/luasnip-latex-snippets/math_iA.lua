@@ -120,7 +120,7 @@ local math_iA = {
     300
   ),
 
-  ls.parser.parse_snippet({ trig = "==", name = "equals" }, "&= $1 \\\\"),
+  ls.parser.parse_snippet({ trig = "==", name = "equals" }, [[&= $1 \\\\]]),
   ls.parser.parse_snippet({ trig = "!=", name = "not equals" }, "\\neq "),
   ls.parser.parse_snippet({ trig = "compl", name = "complement" }, "^{c}"),
   ls.parser.parse_snippet({ trig = "__", name = "subscript" }, "_{$1}$0"),
