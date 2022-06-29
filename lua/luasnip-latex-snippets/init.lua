@@ -25,11 +25,14 @@ M.init = function()
     -- }),
   })
 
-  for _, snip in ipairs(require("luasnip-latex-snippets/math_i")) do
+  local math_i = require("luasnip-latex-snippets/math_i")
+  for _, snip in ipairs(math_i) do
     snip.condition = pipe({ is_math })
+    snip.show_condition = is_math
     snip.wordTrig = false
-    ls.add_snippets("tex", { snip }, { default_priority = 0 })
   end
+
+  ls.add_snippets("tex", math_i, { default_priority = 0 })
 
   local autosnippets = {}
 
