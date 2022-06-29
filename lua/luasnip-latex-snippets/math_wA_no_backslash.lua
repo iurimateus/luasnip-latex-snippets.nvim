@@ -9,7 +9,7 @@ local math_wA_no_backslash = {
   with_priority(ls.parser.parse_snippet({ trig = "atan", name = "atan" }, "\\arctan "), 10),
   with_priority(ls.parser.parse_snippet({ trig = "asec", name = "asec" }, "\\arcsec "), 10),
 
-  ls.parser.parse_snippet({ trig = "set", name = "set" }, "\\{$1\\} $0"),
+  ls.parser.parse_snippet({ trig = "set", name = "set" }, [[ \\{$1\\} $0 ]]),
   ls.parser.parse_snippet(
     { trig = "fun", name = "function map" },
     "f \\colon $1 \\R \\to \\R \\colon $0"

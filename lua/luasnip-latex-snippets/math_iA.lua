@@ -44,7 +44,7 @@ local math_iA = {
   ls.parser.parse_snippet({ trig = "yjj", name = "yj" }, "y_{j}"),
   ls.parser.parse_snippet({ trig = "xp1", name = "x" }, "x_{n+1}"),
   ls.parser.parse_snippet({ trig = "xmm", name = "x" }, "x_{m}"),
-  ls.parser.parse_snippet({ trig = "R0+", name = "R0+" }, "\\R_0^+"),
+  ls.parser.parse_snippet({ trig = "R0+", name = "R0+" }, "\\mathbb{R}_0^+"),
 
   ls.parser.parse_snippet({ trig = "notin", name = "not in " }, "\\not\\in "),
 
@@ -58,7 +58,6 @@ local math_iA = {
   ls.parser.parse_snippet({ trig = "!>", name = "mapsto" }, "\\mapsto "),
   ls.parser.parse_snippet({ trig = "iff", name = "iff" }, "\\iff"),
   ls.parser.parse_snippet({ trig = "ooo", name = "\\infty" }, "\\infty"),
-  ls.parser.parse_snippet({ trig = "inf", name = "\\infty" }, "\\infty"),
   ls.parser.parse_snippet(
     { trig = "rij", name = "mrij" },
     "(${1:x}_${2:n})_{${3:$2}\\in${4:\\N}}$0"
@@ -84,8 +83,8 @@ local math_iA = {
   ls.parser.parse_snippet({ trig = ">>", name = ">>" }, "\\gg"),
   ls.parser.parse_snippet({ trig = "<<", name = "<<" }, "\\ll"),
 
-  ls.parser.parse_snippet({ trig = "tt", name = "text" }, "\\text{$1}$0"),
   ls.parser.parse_snippet({ trig = "stt", name = "text subscript" }, "_\\text{$1} $0"),
+  ls.parser.parse_snippet({ trig = "tt", name = "text" }, "\\text{$1}$0"),
 
   ls.parser.parse_snippet({ trig = "xx", name = "cross" }, "\\times "),
 
@@ -97,11 +96,11 @@ local math_iA = {
   ),
   ls.parser.parse_snippet({ trig = "ceil", name = "ceil" }, "\\left\\lceil $1 \\right\\rceil $0"),
   ls.parser.parse_snippet({ trig = "OO", name = "emptyset" }, "\\O"),
-  ls.parser.parse_snippet({ trig = "RR", name = "real" }, "\\R"),
-  ls.parser.parse_snippet({ trig = "QQ", name = "Q" }, "\\Q"),
-  ls.parser.parse_snippet({ trig = "ZZ", name = "Z" }, "\\Z"),
+  ls.parser.parse_snippet({ trig = "RR", name = "R" }, "\\mathbb{R}"),
+  ls.parser.parse_snippet({ trig = "QQ", name = "Q" }, "\\mathbb{Q}"),
+  ls.parser.parse_snippet({ trig = "ZZ", name = "Z" }, "\\mathbb{Z}"),
   ls.parser.parse_snippet({ trig = "UU", name = "cup" }, "\\cup "),
-  ls.parser.parse_snippet({ trig = "NN", name = "n" }, "\\N"),
+  ls.parser.parse_snippet({ trig = "NN", name = "n" }, "\\mathbb{N}"),
   ls.parser.parse_snippet({ trig = "||", name = "mid" }, " \\mid "),
   ls.parser.parse_snippet({ trig = "Nn", name = "cap" }, "\\cap "),
   ls.parser.parse_snippet(

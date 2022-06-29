@@ -77,27 +77,27 @@ local math_wrA = {
   }),
 
   s({
-    trig = "([%w]+\\?^%w)/",
+    trig = "(\\?[%w]+\\?^%w)/",
     name = "Fraction no ()",
   }, vim.deepcopy(frac_no_parens)),
 
   s({
-    trig = "([%w]+\\?_%w)/",
+    trig = "(\\?[%w]+\\?_%w)/",
     name = "Fraction no ()",
   }, vim.deepcopy(frac_no_parens)),
 
   s({
-    trig = "([%w]+\\?^{%w*})/",
+    trig = "(\\?[%w]+\\?^{%w*})/",
     name = "Fraction no ()",
   }, vim.deepcopy(frac_no_parens)),
 
   s({
-    trig = "([%w]+\\?_{%w*})/",
+    trig = "(\\?[%w]+\\?_{%w*})/",
     name = "Fraction no ()",
   }, vim.deepcopy(frac_no_parens)),
 
   s({
-    trig = "(%w+)/",
+    trig = "(\\?%w+)/",
     name = "Fraction no ()",
   }, vim.deepcopy(frac_no_parens)),
 }
