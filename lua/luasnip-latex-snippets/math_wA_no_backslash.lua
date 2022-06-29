@@ -14,6 +14,11 @@ local math_wA_no_backslash = {
     { trig = "fun", name = "function map" },
     "f \\colon $1 \\R \\to \\R \\colon $0"
   ),
+
+  ls.parser.parse_snippet(
+    { trig = "abs", name = "absolute value \\abs{}" },
+    "\\abs{${1:${TM_SELECTED_TEXT}}}$0"
+  ),
 }
 
 return math_wA_no_backslash

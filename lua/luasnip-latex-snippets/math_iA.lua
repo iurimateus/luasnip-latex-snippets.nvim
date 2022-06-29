@@ -132,7 +132,6 @@ local math_iA = {
   ls.parser.parse_snippet({ trig = ">=", name = "geq" }, "\\ge "),
   ls.parser.parse_snippet({ trig = "invs", name = "inverse" }, "^{-1}"),
   ls.parser.parse_snippet({ trig = "~~", name = "~" }, "\\sim "),
-  -- ls.parser.parse_snippet({ trig = "lrb", name = "left\\{ right\\}" }, "\\left\\{ ${1:${TM_SELECTED_TEXT}} \\right\\} $0"),
   ls.parser.parse_snippet({ trig = "conj", name = "conjugate" }, "\\overline{$1}$0"),
 }
 
