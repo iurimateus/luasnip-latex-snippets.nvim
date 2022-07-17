@@ -26,8 +26,7 @@ M.pipe = function(fns)
 end
 
 M.no_backslash = function(line_to_cursor, matched_trigger)
-  local start = line_to_cursor:find(matched_trigger .. "$")
-  return not line_to_cursor:match("\\" .. matched_trigger, start - 1)
+  return not line_to_cursor:find("\\%a+$", -#line_to_cursor)
 end
 
 M.is_math = function()
