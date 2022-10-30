@@ -89,6 +89,10 @@ M.setup_tex = function(is_math, not_math)
     type = "autosnippets",
     default_priority = 0,
   })
+
+  local misc = require("luasnip-latex-snippets/misc")
+  ls.add_snippets("tex", { misc[1] }, { default_priority = 0 })
+  ls.add_snippets("tex", { misc[2] }, { type = "autosnippets", default_priority = 0 })
 end
 
 M.setup_markdown = function()
