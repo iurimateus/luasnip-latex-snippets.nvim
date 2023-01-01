@@ -21,8 +21,7 @@ local frac = s({
   name = "() frac",
 }, {
   f(function(_, snip)
-    local match = vim.trim(snip.trigger)
-
+    local match = snip.trigger
     local stripped = match:sub(1, #match - 1)
 
     i = #stripped
@@ -40,11 +39,9 @@ local frac = s({
       i = i - 1
     end
 
-    local rv = string.format(
-      "%s\\frac{%s}",
-      stripped:sub(1, i - 1),
-      stripped:sub(i + 1, #stripped - 1)
-    )
+    local rv =
+      string.format("%s\\frac{%s}", stripped:sub(1, i - 1), stripped:sub(i + 1, #stripped - 1))
+
     return rv
   end, {}),
   t("{"),
