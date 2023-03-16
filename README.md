@@ -57,6 +57,10 @@ The first which is used in postfix completions (e.g. match `delta`, but not
 `\delta`) and can be handled with simple functions. The second was solved by
 splitting and/or partially rewriting the expressions.
 
+### Adding your own snippets / overrides
+
+See discussion https://github.com/iurimateus/luasnip-latex-snippets.nvim/discussions/3
+
 ## Roadmap
 
 - [ ] Tests
