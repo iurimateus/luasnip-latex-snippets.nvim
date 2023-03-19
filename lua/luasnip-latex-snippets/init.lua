@@ -98,6 +98,51 @@ M.setup = function(opts)
     type = "autosnippets",
     default_priority = 0,
   })
+
+  M.setup_markdown(autosnippets)
+end
+
+M.setup_markdown = function(autosnippets)
+  local trigger_of_snip = function(s)
+    return s.trigger
+  end
+
+  local normal_wA = vim.tbl_map(trigger_of_snip, require("luasnip-latex-snippets/normal_wA"))
+  local bwa = vim.tbl_map(trigger_of_snip, require("luasnip-latex-snippets/bwA"))
+
+  local to_filter = { bwa, normal_wA }
+
+  local filtered = vim.tbl_filter(function(s)
+    for _, t in pairs(to_filter) do
+      for _, v in pairs(t) do
+        if s.trigger == v then
+          return false
+        end
+      end
+    end
+
+    return true
+  end, autosnippets)
+
+  -- tex delimiters
+  local normal_wA_tex = {
+    ls.parser.parse_snippet({ trig = "mk", name = "Math" }, "$${1:${TM_SELECTED_TEXT}}$"),
+    ls.parser.parse_snippet(
+      { trig = "dm", name = "Block Math" },
+      "$$\n\t${1:${TM_SELECTED_TEXT}}\n.$$"
+    ),
+  }
+
+  local not_math = utils.with_opts(utils.not_math, true)
+  for _, snip in ipairs(normal_wA_tex) do
+    snip.condition = pipe({ not_math })
+    table.insert(filtered, snip)
+  end
+
+  ls.add_snippets("markdown", filtered, {
+    type = "autosnippets",
+    default_priority = 0,
+  })
 end
 
 return M
