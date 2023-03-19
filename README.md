@@ -28,7 +28,8 @@ use {
     require'luasnip-latex-snippets'.setup()
     -- or setup({ use_treesitter = true })
   end,
-  ft = "tex",
+  -- treesitter is required for markdown
+  ft = { "tex", "markdown" },
 }
 ```
 
@@ -64,4 +65,3 @@ See discussion https://github.com/iurimateus/luasnip-latex-snippets.nvim/discuss
 ## Roadmap
 
 - [ ] Tests
-- [ ] Markdown support
