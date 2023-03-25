@@ -14,33 +14,31 @@ local default_opts = {
 M.setup = function(opts)
   opts = vim.tbl_deep_extend("force", default_opts, opts or {})
 
-  local is_math = utils.with_opts(utils.is_math, opts.use_treesitter)
-  local not_math = utils.with_opts(utils.not_math, opts.use_treesitter)
-
   ls.config.setup({ enable_autosnippets = true })
 
-  ls.add_snippets("tex", {
-    ls.parser.parse_snippet(
-      { trig = "pac", name = "Package" },
-      "\\usepackage[${1:options}]{${2:package}}$0"
-    ),
-
-    -- ls.parser.parse_snippet({ trig = "nn", name = "Tikz node" }, {
-    --   "$0",
-    --   -- "\\node[$5] (${1/[^0-9a-zA-Z]//g}${2}) ${3:at (${4:0,0}) }{$${1}$};",
-    --   "\\node[$5] (${1}${2}) ${3:at (${4:0,0}) }{$${1}$};",
-    -- }),
+  local augroup = vim.api.nvim_create_augroup("luasnip-latex-snippets", {})
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "tex",
+    group = augroup,
+    once = true,
+    callback = function()
+      local is_math = utils.with_opts(utils.is_math, opts.use_treesitter)
+      local not_math = utils.with_opts(utils.not_math, opts.use_treesitter)
+      M.setup_tex(is_math, not_math)
+    end,
   })
 
-  local math_i = require("luasnip-latex-snippets/math_i")
-  for _, snip in ipairs(math_i) do
-    snip.condition = pipe({ is_math })
-    snip.show_condition = is_math
-    snip.wordTrig = false
-  end
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "markdown",
+    group = augroup,
+    once = true,
+    callback = function()
+      M.setup_markdown()
+    end,
+  })
+end
 
-  ls.add_snippets("tex", math_i, { default_priority = 0 })
-
+local _autosnippets = function(is_math, not_math)
   local autosnippets = {}
 
   for _, snip in ipairs(require("luasnip-latex-snippets/math_wRA_no_backslash")) do
@@ -74,7 +72,7 @@ M.setup = function(opts)
 
   for _, snip in ipairs(require("luasnip-latex-snippets/math_iA")) do
     snip.wordTrig = false
-    snip.condition = pipe({ is_math })
+    snip.condition = pipe({ is_math, no_backslash })
     table.insert(autosnippets, snip)
   end
 
@@ -94,15 +92,43 @@ M.setup = function(opts)
     table.insert(autosnippets, snip)
   end
 
-  ls.add_snippets("tex", autosnippets, {
+  return autosnippets
+end
+
+M.setup_tex = function(is_math, not_math)
+  ls.add_snippets("tex", {
+    ls.parser.parse_snippet(
+      { trig = "pac", name = "Package" },
+      "\\usepackage[${1:options}]{${2:package}}$0"
+    ),
+
+    -- ls.parser.parse_snippet({ trig = "nn", name = "Tikz node" }, {
+    --   "$0",
+    --   -- "\\node[$5] (${1/[^0-9a-zA-Z]//g}${2}) ${3:at (${4:0,0}) }{$${1}$};",
+    --   "\\node[$5] (${1}${2}) ${3:at (${4:0,0}) }{$${1}$};",
+    -- }),
+  })
+
+  local math_i = require("luasnip-latex-snippets/math_i")
+  for _, snip in ipairs(math_i) do
+    snip.condition = pipe({ is_math })
+    snip.show_condition = is_math
+    snip.wordTrig = false
+  end
+
+  ls.add_snippets("tex", math_i, { default_priority = 0 })
+
+  ls.add_snippets("tex", _autosnippets(is_math, not_math), {
     type = "autosnippets",
     default_priority = 0,
   })
-
-  M.setup_markdown(autosnippets)
 end
 
-M.setup_markdown = function(autosnippets)
+M.setup_markdown = function()
+  local is_math = utils.with_opts(utils.is_math, true)
+  local not_math = utils.with_opts(utils.not_math, true)
+
+  local autosnippets = _autosnippets(is_math, not_math)
   local trigger_of_snip = function(s)
     return s.trigger
   end
