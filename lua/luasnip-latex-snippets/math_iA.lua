@@ -18,7 +18,7 @@ local math_iA = {
   ),
   s(
     {
-      trig = "(%a)hat",
+      trig = "(%a+)hat",
       wordTrig = false,
       regTrig = true,
       name = "hat",

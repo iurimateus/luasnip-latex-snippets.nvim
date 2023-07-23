@@ -12,7 +12,7 @@ end, {})
 
 local build_snippet = function(trig, node, match, priority, name)
   return s({
-    name = name and name(match),
+    name = name and name(match) or match,
     trig = trig(match),
     priority = priority,
   }, vim.deepcopy(node))

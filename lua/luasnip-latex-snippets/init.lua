@@ -39,17 +39,19 @@ M.setup = function(opts)
 end
 
 local _autosnippets = function(is_math, not_math)
+  local match_pattern = require("luasnip/nodes/util/trig_engines").pattern()
+
   local autosnippets = {}
 
   for _, snip in ipairs(require("luasnip-latex-snippets/math_wRA_no_backslash")) do
-    snip.regTrig = true
+    snip.trig_matcher = match_pattern
     snip.condition = pipe({ is_math, no_backslash })
     table.insert(autosnippets, snip)
   end
 
   for _, snip in ipairs(require("luasnip-latex-snippets/math_rA_no_backslash")) do
     snip.wordTrig = false
-    snip.regTrig = true
+    snip.trig_matcher = match_pattern
     snip.condition = pipe({ is_math, no_backslash })
     table.insert(autosnippets, snip)
   end
@@ -60,7 +62,7 @@ local _autosnippets = function(is_math, not_math)
   end
 
   for _, snip in ipairs(require("luasnip-latex-snippets/math_wrA")) do
-    snip.regTrig = true
+    snip.trig_matcher = match_pattern
     snip.condition = pipe({ is_math })
     table.insert(autosnippets, snip)
   end
