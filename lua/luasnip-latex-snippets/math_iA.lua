@@ -91,6 +91,11 @@ local math_iA = {
   with_priority(ls.parser.parse_snippet({ trig = "**", name = "cdot" }, "\\cdot "), 100),
 
   ls.parser.parse_snippet(
+    { trig = ":=", name = "colon equals (lhs defined as rhs)" },
+    "\\coloneqq "
+  ),
+
+  ls.parser.parse_snippet(
     { trig = "cvec", name = "column vector" },
     "\\begin{pmatrix} ${1:x}_${2:1}\\\\ \\vdots\\\\ $1_${2:n} \\end{pmatrix}"
   ),
