@@ -18,6 +18,8 @@ cursor is within math mode. Alternatively, you can use
 Can be installed like any neovim plugin. If using
 [wbthomason/packer.nvim](https://github.com/wbthomason/packer.nvim):
 
+For autosnippets to work correctly one should enable them in the luasnip config (`require('luasnip').setup({enable_autosnippets = true})`).
+
 ```lua
 use {
   "iurimateus/luasnip-latex-snippets.nvim",

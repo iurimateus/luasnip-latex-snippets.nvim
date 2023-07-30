@@ -14,8 +14,6 @@ local default_opts = {
 M.setup = function(opts)
   opts = vim.tbl_deep_extend("force", default_opts, opts or {})
 
-  ls.config.setup({ enable_autosnippets = true })
-
   local augroup = vim.api.nvim_create_augroup("luasnip-latex-snippets", {})
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "tex",
