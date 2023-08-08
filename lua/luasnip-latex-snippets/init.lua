@@ -1,6 +1,3 @@
-local ls = require("luasnip")
-local conds = require("luasnip.extras.expand_conditions")
-
 local utils = require("luasnip-latex-snippets.util.utils")
 local pipe = utils.pipe
 local no_backslash = utils.no_backslash
@@ -13,8 +10,6 @@ local default_opts = {
 
 M.setup = function(opts)
   opts = vim.tbl_deep_extend("force", default_opts, opts or {})
-
-  ls.config.setup({ enable_autosnippets = true })
 
   local augroup = vim.api.nvim_create_augroup("luasnip-latex-snippets", {})
   vim.api.nvim_create_autocmd("FileType", {
@@ -39,6 +34,7 @@ M.setup = function(opts)
 end
 
 local _autosnippets = function(is_math, not_math)
+  local conds = require("luasnip.extras.expand_conditions")
   local match_pattern = require("luasnip/nodes/util/trig_engines").pattern()
 
   local autosnippets = {}
@@ -98,6 +94,7 @@ local _autosnippets = function(is_math, not_math)
 end
 
 M.setup_tex = function(is_math, not_math)
+  local ls = require("luasnip")
   ls.add_snippets("tex", {
     ls.parser.parse_snippet(
       { trig = "pac", name = "Package" },
@@ -127,6 +124,8 @@ M.setup_tex = function(is_math, not_math)
 end
 
 M.setup_markdown = function()
+  local ls = require("luasnip")
+
   local is_math = utils.with_opts(utils.is_math, true)
   local not_math = utils.with_opts(utils.not_math, true)
 
