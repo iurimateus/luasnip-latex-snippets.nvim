@@ -6,7 +6,7 @@ local i = ls.insert_node
 local bwA = {
   s(
     { trig = "ali", name = "Align" },
-    { t({ "\\begin{align*}", "\t" }), i(1), t({ "", ".\\end{align*}" }) }
+    { t({ "\\begin{align*}", "\t" }), i(1), t({ "", "\\end{align*}" }) }
   ),
 
   ls.parser.parse_snippet(
