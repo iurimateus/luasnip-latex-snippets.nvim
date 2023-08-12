@@ -51,7 +51,7 @@ local _autosnippets = function(is_math, not_math)
   end
 
   for _, s in ipairs({
-    "normal_wA",
+    "wA",
     "bwA",
   }) do
     vim.list_extend(
@@ -101,7 +101,7 @@ M.setup_markdown = function()
 
   local to_filter = {}
   for _, str in ipairs({
-    "normal_wA",
+    "wA",
     "bwA",
   }) do
     local t = require(("luasnip-latex-snippets.%s"):format(str)).retrieve(not_math)
