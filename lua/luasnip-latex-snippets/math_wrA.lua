@@ -1,5 +1,6 @@
+local M = {}
+
 local ls = require("luasnip")
-local s = ls.snippet
 local f = ls.function_node
 local i = ls.insert_node
 local t = ls.text_node
@@ -14,12 +15,7 @@ local frac_no_parens = {
   i(0),
 }
 
-local frac = s({
-  priority = 1000,
-  trig = ".*%)/",
-  wordTrig = true,
-  name = "() frac",
-}, {
+local frac_node = {
   f(function(_, snip)
     local match = snip.trigger
     local stripped = match:sub(1, #match - 1)
@@ -48,30 +44,13 @@ local frac = s({
   i(1),
   t("}"),
   i(0),
-})
+}
 
-local math_wrA = {
-  frac,
-
-  s({
-    trig = "([%a])(%d)",
-    name = "auto subscript",
-  }, {
-    f(function(_, snip)
-      return string.format("%s_%s", snip.captures[1], snip.captures[2])
-    end, {}),
-    i(0),
-  }),
-
-  s({
-    trig = "([%a])_(%d%d)",
-    name = "auto subscript 2",
-  }, {
-    f(function(_, snip)
-      return string.format("%s_{%s}", snip.captures[1], snip.captures[2])
-    end, {}),
-    i(0),
-  }),
+local subscript_node = {
+  f(function(_, snip)
+    return string.format("%s_{%s}", snip.captures[1], snip.captures[2])
+  end, {}),
+  i(0),
 }
 
 local frac_no_parens_triggers = {
@@ -82,11 +61,43 @@ local frac_no_parens_triggers = {
   "(\\?%w+)/",
 }
 
-for _, trig in pairs(frac_no_parens_triggers) do
-  math_wrA[#math_wrA + 1] = s({
-    name = "Fraction no ()",
-    trig = trig,
-  }, vim.deepcopy(frac_no_parens))
+function M.retrieve(is_math)
+  local utils = require("luasnip-latex-snippets.util.utils")
+  local pipe = utils.pipe
+
+  local s = ls.extend_decorator.apply(ls.snippet, {
+    wordTrig = false,
+    trigEngine = "pattern",
+    condition = pipe({ is_math }),
+  }) --[[@as function]]
+
+  local snippets = {
+    s({
+      trig = "([%a])(%d)",
+      name = "auto subscript",
+    }, vim.deepcopy(subscript_node)),
+
+    s({
+      trig = "([%a])_(%d%d)",
+      name = "auto subscript 2",
+    }, vim.deepcopy(subscript_node)),
+
+    s({
+      priority = 1000,
+      trig = ".*%)/",
+      name = "() frac",
+      wordTrig = true,
+    }, vim.deepcopy(frac_node)),
+  }
+
+  for _, trig in pairs(frac_no_parens_triggers) do
+    snippets[#snippets + 1] = s({
+      name = "Fraction no ()",
+      trig = trig,
+    }, vim.deepcopy(frac_no_parens))
+  end
+
+  return snippets
 end
 
-return math_wrA
+return M

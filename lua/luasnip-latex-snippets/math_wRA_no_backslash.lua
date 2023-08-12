@@ -1,6 +1,7 @@
 local ls = require("luasnip")
-local s = ls.snippet
 local f = ls.function_node
+
+local M = {}
 
 local vec_node = {
   f(function(_, snip)
@@ -8,11 +9,35 @@ local vec_node = {
   end, {}),
 }
 
-local math_wrA_no_backslash = {
-  s({ trig = "([%a][%a])(%.,)" }, vim.deepcopy(vec_node)),
-  s({ trig = "([%a][%a])(,%.)" }, vim.deepcopy(vec_node)),
-  s({ trig = "([%a])(%.,)" }, vim.deepcopy(vec_node)),
-  s({ trig = "([%a])(,%.)" }, vim.deepcopy(vec_node)),
+M.math_wrA_no_backslash = {
+  { "([%a][%a])(%.,)", vec_node },
+  { "([%a][%a])(,%.)", vec_node },
+  { "([%a])(%.,)", vec_node },
+  { "([%a])(,%.)", vec_node },
 }
 
-return math_wrA_no_backslash
+M.decorator = {}
+
+function M.retrieve(is_math)
+  local utils = require("luasnip-latex-snippets.util.utils")
+  local pipe = utils.pipe
+  local no_backslash = utils.no_backslash
+
+  M.decorator = {
+    wordTrig = true,
+    trigEngine = "pattern",
+    condition = pipe({ is_math, no_backslash }),
+  }
+
+  local s = ls.extend_decorator.apply(ls.snippet, M.decorator) --[[@as function]]
+
+  return vim
+    .iter(M.math_wrA_no_backslash)
+    :map(function(x)
+      local trig, node = unpack(x)
+      return s({ trig = trig }, vim.deepcopy(node))
+    end)
+    :totable()
+end
+
+return M

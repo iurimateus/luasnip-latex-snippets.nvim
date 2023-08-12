@@ -34,56 +34,30 @@ M.setup = function(opts)
 end
 
 local _autosnippets = function(is_math, not_math)
-  local conds = require("luasnip.extras.expand_conditions")
-  local match_pattern = require("luasnip/nodes/util/trig_engines").pattern()
-
   local autosnippets = {}
 
-  for _, snip in ipairs(require("luasnip-latex-snippets/math_wRA_no_backslash")) do
-    snip.trig_matcher = match_pattern
-    snip.condition = pipe({ is_math, no_backslash })
-    table.insert(autosnippets, snip)
+  for _, s in ipairs({
+    "math_wRA_no_backslash",
+    "math_rA_no_backslash",
+    "math_wA_no_backslash",
+    "math_iA_no_backslash",
+    "math_iA",
+    "math_wrA",
+  }) do
+    vim.list_extend(
+      autosnippets,
+      require(("luasnip-latex-snippets.%s"):format(s)).retrieve(is_math)
+    )
   end
 
-  for _, snip in ipairs(require("luasnip-latex-snippets/math_rA_no_backslash")) do
-    snip.wordTrig = false
-    snip.trig_matcher = match_pattern
-    snip.condition = pipe({ is_math, no_backslash })
-    table.insert(autosnippets, snip)
-  end
-
-  for _, snip in ipairs(require("luasnip-latex-snippets/normal_wA")) do
-    snip.condition = pipe({ not_math })
-    table.insert(autosnippets, snip)
-  end
-
-  for _, snip in ipairs(require("luasnip-latex-snippets/math_wrA")) do
-    snip.trig_matcher = match_pattern
-    snip.condition = pipe({ is_math })
-    table.insert(autosnippets, snip)
-  end
-
-  for _, snip in ipairs(require("luasnip-latex-snippets/math_wA_no_backslash")) do
-    snip.condition = pipe({ is_math, no_backslash })
-    table.insert(autosnippets, snip)
-  end
-
-  for _, snip in ipairs(require("luasnip-latex-snippets/math_iA")) do
-    snip.wordTrig = false
-    snip.condition = pipe({ is_math, no_backslash })
-    table.insert(autosnippets, snip)
-  end
-
-  for _, snip in ipairs(require("luasnip-latex-snippets/math_iA_no_backslash")) do
-    snip.wordTrig = false
-    snip.condition = pipe({ is_math, no_backslash })
-    table.insert(autosnippets, snip)
-  end
-
-
-  for _, snip in ipairs(require("luasnip-latex-snippets/bwA")) do
-    snip.condition = pipe({ conds.line_begin, not_math })
-    table.insert(autosnippets, snip)
+  for _, s in ipairs({
+    "normal_wA",
+    "bwA",
+  }) do
+    vim.list_extend(
+      autosnippets,
+      require(("luasnip-latex-snippets.%s"):format(s)).retrieve(not_math)
+    )
   end
 
   return autosnippets
@@ -104,12 +78,7 @@ M.setup_tex = function(is_math, not_math)
     -- }),
   })
 
-  local math_i = require("luasnip-latex-snippets/math_i")
-  for _, snip in ipairs(math_i) do
-    snip.condition = pipe({ is_math })
-    snip.show_condition = is_math
-    snip.wordTrig = false
-  end
+  local math_i = require("luasnip-latex-snippets/math_i").retrieve(is_math)
 
   ls.add_snippets("tex", math_i, { default_priority = 0 })
 
@@ -130,37 +99,29 @@ M.setup_markdown = function()
     return s.trigger
   end
 
-  local normal_wA = vim.tbl_map(trigger_of_snip, require("luasnip-latex-snippets/normal_wA"))
-  local bwa = vim.tbl_map(trigger_of_snip, require("luasnip-latex-snippets/bwA"))
-
-  local to_filter = { bwa, normal_wA }
+  local to_filter = {}
+  for _, str in ipairs({
+    "normal_wA",
+    "bwA",
+  }) do
+    local t = require(("luasnip-latex-snippets.%s"):format(str)).retrieve(not_math)
+    vim.list_extend(to_filter, vim.tbl_map(trigger_of_snip, t))
+  end
 
   local filtered = vim.tbl_filter(function(s)
-    for _, t in pairs(to_filter) do
-      for _, v in pairs(t) do
-        if s.trigger == v then
-          return false
-        end
-      end
-    end
-
-    return true
+    return not vim.tbl_contains(to_filter, s.trigger)
   end, autosnippets)
+
+  local parse_snippet = ls.extend_decorator.apply(ls.parser.parse_snippet, {
+    condition = pipe({ not_math }),
+  }) --[[@as function]]
 
   -- tex delimiters
   local normal_wA_tex = {
-    ls.parser.parse_snippet({ trig = "mk", name = "Math" }, "$${1:${TM_SELECTED_TEXT}}$"),
-    ls.parser.parse_snippet(
-      { trig = "dm", name = "Block Math" },
-      "$$\n\t${1:${TM_SELECTED_TEXT}}\n.$$"
-    ),
+    parse_snippet({ trig = "mk", name = "Math" }, "$${1:${TM_SELECTED_TEXT}}$"),
+    parse_snippet({ trig = "dm", name = "Block Math" }, "$$\n\t${1:${TM_SELECTED_TEXT}}\n.$$"),
   }
-
-  local not_math = utils.with_opts(utils.not_math, true)
-  for _, snip in ipairs(normal_wA_tex) do
-    snip.condition = pipe({ not_math })
-    table.insert(filtered, snip)
-  end
+  vim.list_extend(filtered, normal_wA_tex)
 
   ls.add_snippets("markdown", filtered, {
     type = "autosnippets",
