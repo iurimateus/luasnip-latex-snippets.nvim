@@ -80,10 +80,6 @@ local _autosnippets = function(is_math, not_math)
     table.insert(autosnippets, snip)
   end
 
-  for _, snip in ipairs(require("luasnip-latex-snippets/math_bwA")) do
-    snip.condition = pipe({ conds.line_begin, is_math })
-    table.insert(autosnippets, snip)
-  end
 
   for _, snip in ipairs(require("luasnip-latex-snippets/bwA")) do
     snip.condition = pipe({ conds.line_begin, not_math })
