@@ -31,13 +31,10 @@ function M.retrieve(is_math)
 
   local s = ls.extend_decorator.apply(ls.snippet, M.decorator) --[[@as function]]
 
-  return vim
-    .iter(M.math_wrA_no_backslash)
-    :map(function(x)
-      local trig, node = unpack(x)
-      return s({ trig = trig }, vim.deepcopy(node))
-    end)
-    :totable()
+  return vim.tbl_map(function(x)
+    local trig, node = unpack(x)
+    return s({ trig = trig }, vim.deepcopy(node))
+  end, M.math_wrA_no_backslash)
 end
 
 return M
