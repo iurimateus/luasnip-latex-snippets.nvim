@@ -1,10 +1,6 @@
 local ls = require("luasnip")
-local s = ls.snippet
 local f = ls.function_node
-
-local M = {}
-
-M.decorator = {}
+local s
 
 local postfix_trig = function(match)
   return string.format("(%s)", match)
@@ -43,21 +39,20 @@ local postfix_completions = function()
   return vim.tbl_map(build, vim.split(re, "|"))
 end
 
-local snippets = {}
+local M = {}
 
 function M.retrieve(is_math)
   local utils = require("luasnip-latex-snippets.util.utils")
   local pipe = utils.pipe
   local no_backslash = utils.no_backslash
 
-  M.decorator = {
+  s = ls.extend_decorator.apply(ls.snippet, {
     wordTrig = false,
     trigEngine = "pattern",
     condition = pipe({ is_math, no_backslash }),
-  }
+  }) --[[@as function]]
 
-  s = ls.extend_decorator.apply(ls.snippet, M.decorator) --[[@as function]]
-
+  local snippets = {}
   vim.list_extend(snippets, greek_postfix_completions())
   vim.list_extend(snippets, postfix_completions())
   vim.list_extend(snippets, { build_snippet(postfix_trig, postfix_node, "q?quad", 200) })

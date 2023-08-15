@@ -11,15 +11,11 @@ function M.retrieve(is_math)
     condition = pipe({ is_math, no_backslash }),
   }) --[[@as function]]
 
-  local with_priority = ls.extend_decorator.apply(parse_snippet, {
-    priority = 10,
-  }) --[[@as function]]
-
   return {
     parse_snippet({ trig = "sq", name = "\\sqrt{}" }, "\\sqrt{${1:${TM_SELECTED_TEXT}}} $0"),
 
-    with_priority({ trig = "hat", name = "hat" }, "\\hat{$1}$0 "),
-    with_priority({ trig = "bar", name = "bar" }, "\\overline{$1}$0 "),
+    parse_snippet({ trig = "hat", name = "hat", priority = 10 }, "\\hat{$1}$0 "),
+    parse_snippet({ trig = "bar", name = "bar", priority = 10 }, "\\overline{$1}$0 "),
 
     parse_snippet({ trig = "inf", name = "\\infty" }, "\\infty"),
     parse_snippet({ trig = "inn", name = "in " }, "\\in "),
