@@ -6,6 +6,7 @@ local M = {}
 
 local default_opts = {
   use_treesitter = false,
+  allow_on_markdown = true,
 }
 
 M.setup = function(opts)
@@ -23,14 +24,16 @@ M.setup = function(opts)
     end,
   })
 
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = "markdown",
-    group = augroup,
-    once = true,
-    callback = function()
-      M.setup_markdown()
-    end,
-  })
+  if opts.allow_on_markdown then
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "markdown",
+      group = augroup,
+      once = true,
+      callback = function()
+        M.setup_markdown()
+      end,
+    })
+  end
 end
 
 local _autosnippets = function(is_math, not_math)

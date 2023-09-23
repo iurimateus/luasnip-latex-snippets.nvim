@@ -30,6 +30,15 @@ use {
 }
 ```
 
+## Configuration
+
+```
+{
+  use_treesitter = false, -- whether to use treesitter to determine if cursor is in math mode; if false, vimtex is used
+  allow_on_markdown = true, -- whether to add snippets to markdown filetype
+}
+```
+
 ## Misc
 
 The following convention, from
