@@ -15,6 +15,8 @@ Depends on [vimtex](https://github.com/lervag/vimtex) to determine if the
 cursor is within math mode. Alternatively, you can use
 [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) (experimental) by passing `{ use_treesitter = true }` to the setup call.
 
+It's necessary to enable `autosnippets` in luasnip: `require("luasnip").config.setup { enable_autosnippets = true }`.
+
 Can be installed like any neovim plugin. If using
 [wbthomason/packer.nvim](https://github.com/wbthomason/packer.nvim):
 
@@ -26,6 +28,7 @@ use {
   config = function()
     require'luasnip-latex-snippets'.setup()
     -- or setup({ use_treesitter = true })
+    require("luasnip").config.setup { enable_autosnippets = true }
   end,
 }
 ```
