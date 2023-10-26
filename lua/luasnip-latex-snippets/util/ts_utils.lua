@@ -1,26 +1,29 @@
 local M = {}
 
-local ts = require("vim.treesitter")
-
 local MATH_NODES = {
   displayed_equation = true,
   inline_formula = true,
   math_environment = true,
 }
 
-local function get_node_at_cursor()
-  local buf = vim.api.nvim_get_current_buf()
-  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-  row = row - 1
-  col = col - 1
+local TEXT_NODES = {
+  text_mode = true,
+  label_definition = true,
+  label_reference = true,
+}
 
-  local parser = ts.get_parser(buf, "latex")
+local function get_node_at_cursor()
+  local pos = vim.api.nvim_win_get_cursor(0)
+  -- Subtract one to account for 1-based row indexing in nvim_win_get_cursor
+  local row, col = pos[1] - 1, pos[2]
+
+  local parser = vim.treesitter.get_parser(0, "latex")
   if not parser then
     return
   end
-  local root_tree = parser:parse()[1]
-  local root = root_tree and root_tree:root()
 
+  local root_tree = parser:parse({ row, col, row, col })[1]
+  local root = root_tree and root_tree:root()
   if not root then
     return
   end
@@ -52,7 +55,7 @@ end
 function M.in_mathzone()
   local node = get_node_at_cursor()
   while node do
-    if node:type() == "text_mode" then
+    if TEXT_NODES[node:type()] then
       return false
     elseif MATH_NODES[node:type()] then
       return true
