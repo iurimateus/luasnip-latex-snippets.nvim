@@ -1,6 +1,6 @@
 local utils = require("luasnip-latex-snippets.util.utils")
 local pipe = utils.pipe
-local no_backslash = utils.no_backslash
+-- local no_backslash = utils.no_backslash
 
 local M = {}
 
@@ -18,8 +18,12 @@ M.setup = function(opts)
     group = augroup,
     once = true,
     callback = function()
-      local is_math = utils.with_opts(utils.is_math, opts.use_treesitter)
-      local not_math = utils.with_opts(utils.not_math, opts.use_treesitter)
+      local function_opts = {
+        lang = "tex",
+        use_treesitter = opts.use_treesitter,
+      }
+      local is_math = utils.with_opts(utils.is_math, function_opts)
+      local not_math = utils.with_opts(utils.not_math, function_opts)
       M.setup_tex(is_math, not_math)
     end,
   })
@@ -94,8 +98,9 @@ end
 M.setup_markdown = function()
   local ls = require("luasnip")
 
-  local is_math = utils.is_math_md
-  local not_math = utils.not_math_md
+  local function_opts = { lang = "markdown" }
+  local is_math = utils.with_opts(utils.is_math, function_opts)
+  local not_math = utils.with_opts(utils.not_math, function_opts)
 
   local autosnippets = _autosnippets(is_math, not_math)
   local trigger_of_snip = function(s)
@@ -131,6 +136,4 @@ M.setup_markdown = function()
     default_priority = 0,
   })
 end
-
-M.is_math_md = utils.is_math_md
 return M

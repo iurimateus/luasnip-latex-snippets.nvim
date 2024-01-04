@@ -25,40 +25,51 @@ M.pipe = function(fns)
   end
 end
 
-M.no_backslash = function(line_to_cursor, matched_trigger)
+M.no_backslash = function(line_to_cursor)
   return not line_to_cursor:find("\\%a+$", -#line_to_cursor)
 end
 
 local ts_utils = require("luasnip-latex-snippets.util.ts_utils")
-M.is_math = function(treesitter)
-  if treesitter then
-    return ts_utils.in_mathzone()
-  end
+M.is_math = function(opts)
+  opts = opts or {}
 
-  return vim.fn["vimtex#syntax#in_mathzone"]() == 1
-end
+  local lang = opts.lang
 
-M.not_math = function(treesitter)
-  if treesitter then
-    return ts_utils.in_text(true)
-  end
+  assert(lang == nil or lang == "", "lang must be specified")
 
-  return not M.is_math()
-end
-
-M.is_math_md = function()
-  local node = vim.treesitter.get_node({ lang = "markdown_inline" })
-  while node do
-    if node:type() == "latex_block" then
-      return true
+  if lang == "tex" then
+    local use_treesitter = opts.use_treesitter or false
+    if use_treesitter then
+      return ts_utils.in_mathzone_tex()
     end
-    node = node:parent()
+
+    return vim.fn["vimtex#syntax#in_mathzone"]() == 1
+  elseif lang == "markdown" then
+    return ts_utils.in_mathzone_md()
+  else
+    assert(true, "file type not support: " .. lang)
   end
-  return false
 end
 
-M.not_math_md = function()
-  return not M.is_math_md()
+M.not_math = function(opts)
+  opts = opts or {}
+
+  local lang = opts.lang
+
+  assert(lang == nil or lang == "", "lang must be specified")
+
+  if lang == "tex" then
+    local use_treesitter = opts.use_treesitter or false
+    if use_treesitter then
+      return ts_utils.in_text_tex(true)
+    end
+
+    return not M.is_math()
+  elseif lang == "markdown" then
+    return not ts_utils.in_mathzone_md()
+  else
+    assert(true, "file type not support: " .. lang)
+  end
 end
 
 M.comment = function()
