@@ -136,4 +136,12 @@ M.setup_markdown = function()
     default_priority = 0,
   })
 end
+
+M.inspect_node = function(lang)
+  local node = require("luasnip-latex-snippets.util.ts_utils").get_node_at_cursor(lang)
+  while node do
+    print(node:type())
+    node = node:parent()
+  end
+end
 return M

@@ -67,7 +67,7 @@ function M.in_mathzone_md()
   local node = M.get_node_at_cursor("markdown_inline")
   while node do
     if node:type() == "latex_block" then
-      return false
+      return true
     end
     node = node:parent()
   end
