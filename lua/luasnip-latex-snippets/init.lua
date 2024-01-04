@@ -94,8 +94,8 @@ end
 M.setup_markdown = function()
   local ls = require("luasnip")
 
-  local is_math = utils.is_math_md()
-  local not_math = utils.not_math_md()
+  local is_math = utils.is_math_md
+  local not_math = utils.not_math_md
 
   local autosnippets = _autosnippets(is_math, not_math)
   local trigger_of_snip = function(s)
@@ -132,4 +132,5 @@ M.setup_markdown = function()
   })
 end
 
+M.is_math_md = utils.is_math_md
 return M

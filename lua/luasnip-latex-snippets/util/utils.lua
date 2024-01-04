@@ -47,7 +47,14 @@ M.not_math = function(treesitter)
 end
 
 M.is_math_md = function()
-  return ts_utils.in_mathzone_md()
+  local node = vim.treesitter.get_node({ lang = "markdown_inline" })
+  while node do
+    if node:type() == "latex_block" then
+      return true
+    end
+    node = node:parent()
+  end
+  return false
 end
 
 M.not_math_md = function()
