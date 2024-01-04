@@ -35,7 +35,7 @@ M.is_math = function(opts)
 
   local lang = opts.lang
 
-  assert(lang == nil or lang == "", "lang must be specified")
+  assert(lang ~= nil and lang ~= "", "lang must be specified: " .. lang)
 
   if lang == "tex" then
     local use_treesitter = opts.use_treesitter or false
@@ -56,7 +56,7 @@ M.not_math = function(opts)
 
   local lang = opts.lang
 
-  assert(lang == nil or lang == "", "lang must be specified")
+  assert(lang ~= nil and lang ~= "", "lang must be specified: " .. lang)
 
   if lang == "tex" then
     local use_treesitter = opts.use_treesitter or false
@@ -64,7 +64,7 @@ M.not_math = function(opts)
       return ts_utils.in_text_tex(true)
     end
 
-    return not M.is_math()
+    return not M.is_math(opts)
   elseif lang == "markdown" then
     return not ts_utils.in_mathzone_md()
   else
