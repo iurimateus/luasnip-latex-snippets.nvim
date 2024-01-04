@@ -46,6 +46,14 @@ M.not_math = function(treesitter)
   return not M.is_math()
 end
 
+M.is_math_md = function()
+  return ts_utils.in_mathzone_md()
+end
+
+M.not_math_md = function()
+  return not M.is_math_md()
+end
+
 M.comment = function()
   return vim.fn["vimtex#syntax#in_comment"]() == 1
 end

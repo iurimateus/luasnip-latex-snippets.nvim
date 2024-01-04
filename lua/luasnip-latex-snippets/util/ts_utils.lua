@@ -65,4 +65,16 @@ function M.in_mathzone()
   return false
 end
 
+function M.in_mathzone_md()
+  local nt_utils = require("nvim-treesitter.ts_utils")
+  local node = nt_utils.get_node_at_cursor()
+  while node do
+    if node:type() == "latex_block" then
+      return true
+    end
+    node = node:parent()
+  end
+  return false
+end
+
 return M
