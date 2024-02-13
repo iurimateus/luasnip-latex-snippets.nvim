@@ -22,7 +22,7 @@ local frac_node = {
 
     i = #stripped
     local depth = 0
-    while true do
+    while i >= 0 do
       if stripped:sub(i, i) == ")" then
         depth = depth + 1
       end
@@ -35,10 +35,11 @@ local frac_node = {
       i = i - 1
     end
 
-    local rv =
-      string.format("%s\\frac{%s}", stripped:sub(1, i - 1), stripped:sub(i + 1, #stripped - 1))
-
-    return rv
+    if depth ~= 0 then
+      return string.format("%s\\frac{}", stripped)
+    else
+      return string.format("%s\\frac{%s}", stripped:sub(1, i - 1), stripped:sub(i + 1, #stripped - 1))
+    end
   end, {}),
   t("{"),
   i(1),
