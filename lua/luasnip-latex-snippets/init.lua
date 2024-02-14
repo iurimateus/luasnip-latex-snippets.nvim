@@ -4,13 +4,14 @@ local no_backslash = utils.no_backslash
 
 local M = {}
 
-local default_opts = {
+local opts = {
   use_treesitter = false,
   allow_on_markdown = true,
 }
 
-M.setup = function(opts)
-  opts = vim.tbl_deep_extend("force", default_opts, opts or {})
+M.setup = function(override_opts)
+  override_opts = override_opts or {}
+  opts = vim.tbl_deep_extend("force", opts, override_opts)
 
   local augroup = vim.api.nvim_create_augroup("luasnip-latex-snippets", {})
   vim.api.nvim_create_autocmd("FileType", {
