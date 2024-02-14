@@ -22,7 +22,7 @@ local function get_node_at_cursor()
     return
   end
 
-  local root_tree = parser:parse({ row, col, row, col })[1]
+  local root_tree = parser:parse()[1]
   local root = root_tree and root_tree:root()
   if not root then
     return
