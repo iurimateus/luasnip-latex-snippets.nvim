@@ -1,12 +1,14 @@
 local M = {}
 
-local default_opts = {
+local opts = {
   use_treesitter = false,
   allow_on_markdown = true,
+  markdown_use_polling = false,
 }
 
-M.setup = function(opts)
-  opts = vim.tbl_deep_extend("force", default_opts, opts or {})
+M.setup = function(override_opts)
+  override_opts = override_opts or {}
+  opts = vim.tbl_deep_extend("force", opts, override_opts)
 
   local augroup = vim.api.nvim_create_augroup("luasnip-latex-snippets", {})
   vim.api.nvim_create_autocmd("FileType", {
@@ -27,7 +29,7 @@ M.setup = function(opts)
       group = augroup,
       once = true,
       callback = function()
-        M.setup_markdown()
+        M.setup_markdown(augroup)
       end,
     })
   end
@@ -88,13 +90,53 @@ M.setup_tex = function(is_math, not_math)
   })
 end
 
-M.setup_markdown = function()
+---@param augroup integer
+M.setup_markdown = function(augroup)
   local ls = require("luasnip")
   local utils = require("luasnip-latex-snippets.util.utils")
   local pipe = utils.pipe
 
   local is_math = utils.with_opts(utils.is_math, true)
   local not_math = utils.with_opts(utils.not_math, true)
+
+  if opts.markdown_use_polling then
+    local p = require("luasnip-latex-snippets.util.ts_utils").polling
+    vim.api.nvim_create_autocmd(
+      {"BufEnter", "BufWinEnter"},
+      {
+        pattern = "*.md",
+        group = augroup,
+        callback = function(args)
+          if not p.is_buf_tracked(args.buf) then
+            p.init_buf(args.buf)
+          end
+        end
+      }
+    )
+
+    vim.api.nvim_create_autocmd(
+      "BufDelete",
+      {
+        pattern = "*.md",
+        group = augroup,
+        callback = function(args)
+          if p.is_buf_tracked(args.buf) then
+            p.deinit_buf(args.buf)
+          end
+        end
+      }
+    )
+
+    is_math = function()
+      local buf = vim.api.nvim_get_current_buf()
+      return p.tracked_bufs[buf].in_math
+    end
+
+    not_math = function()
+      local buf = vim.api.nvim_get_current_buf()
+      return p.tracked_bufs[buf].in_text
+    end
+  end
 
   local math_i = require("luasnip-latex-snippets/math_i").retrieve(is_math)
   ls.add_snippets("markdown", math_i, { default_priority = 0 })
