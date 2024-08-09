@@ -7,3 +7,5 @@ Based on [iurimateus's luasnip-latex-snippets.nvim](https://github.com/iurimateu
 ## Why?
 
 Some of the snippets straight up don't work and it's also missing a lot of snippets I would like to personally add. 
+
+Also, debugging!
