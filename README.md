@@ -69,7 +69,7 @@ splitting and/or partially rewriting the expressions.
 
 ### Adding your own snippets / overrides
 
-See discussion https://github.com/iurimateus/luasnip-latex-snippets.nvim/discussions/3
+See discussion [https://github.com/iurimateus/luasnip-latex-snippets.nvim/discussions/3](https://github.com/iurimateus/luasnip-latex-snippets.nvim/discussions/3#discussioncomment-11348707)
 
 ## Roadmap
 
