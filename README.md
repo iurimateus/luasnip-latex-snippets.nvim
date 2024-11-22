@@ -69,7 +69,23 @@ splitting and/or partially rewriting the expressions.
 
 ### Adding your own snippets / overrides
 
-See discussion [https://github.com/iurimateus/luasnip-latex-snippets.nvim/discussions/3](https://github.com/iurimateus/luasnip-latex-snippets.nvim/discussions/3#discussioncomment-11348707)
+See discussion https://github.com/iurimateus/luasnip-latex-snippets.nvim/discussions/3#discussioncomment-11348745
+
+```lua
+local ls = require("luasnip")
+local utils = require("luasnip-latex-snippets.util.utils")
+local not_math = utils.not_math() -- pass true if using Treesitter
+
+-- set a higher priority (defaults to 0 for most snippets)
+local snip = ls.parser.parse_snippet(
+  { trig = "mk", name = "Math", condition = not_math, priority = 10 },
+  "$ ${1:${TM_SELECTED_TEXT}} $$0"
+)
+
+ls.add_snippets("tex", { snip }, {
+  type = "autosnippets",
+})
+```
 
 ## Roadmap
 
