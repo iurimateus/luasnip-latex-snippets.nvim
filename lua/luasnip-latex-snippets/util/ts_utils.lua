@@ -19,17 +19,14 @@ local CODE_BLOCK_NODES = { -- Add this to define code block node types
 
 function M.in_text(check_parent)
     local node = vim.treesitter.get_node({ ignore_injections = false })
-    local current_filetype = vim.bo.filetype
-
-    -- Check if we are in a markdown file and inside a code block
-    if current_filetype == "markdown" then
-        local block_node = node
-        while block_node do
-            if CODE_BLOCK_NODES[block_node:type()] then
-                return true -- If in a code block in markdown, always consider it text
-            end
-            block_node = block_node:parent()
+    
+    -- Check for code blocks in any filetype
+    local block_node = node
+    while block_node do
+        if CODE_BLOCK_NODES[block_node:type()] then
+            return true -- If in a code block, always consider it text
         end
+        block_node = block_node:parent()
     end
 
     while node do
