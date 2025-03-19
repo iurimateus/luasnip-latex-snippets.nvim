@@ -17,6 +17,7 @@ function M.retrieve(is_math)
 
   return {
     parse_snippet({ trig = "sq", name = "\\sqrt{}" }, "\\sqrt{${1:${TM_SELECTED_TEXT}}} $0"),
+    parse_snippet({ trig = "case", name = "cases" }, "\\begin{cases}\n\t$1\n\\end{cases}"),
 
     with_priority({ trig = "hat", name = "hat" }, "\\hat{$1}$0 "),
     with_priority({ trig = "bar", name = "bar" }, "\\overline{$1}$0 "),
