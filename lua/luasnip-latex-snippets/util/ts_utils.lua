@@ -52,7 +52,7 @@ function M.in_mathzone()
     local current_filetype = vim.bo.filetype
 
     -- Check if we are in a markdown file and inside a code block
-    if current_filetype == "markdown" then
+    if current_filetype == "markdown" or vim.bo.filetype == "quarto" then
         local block_node = node
         while block_node do
             if CODE_BLOCK_NODES[block_node:type()] then
