@@ -22,7 +22,7 @@ function M.retrieve(not_math)
   return {
     s(
       { trig = "ali", name = "Align" },
-      { t({ "\\begin{align*}", "\t" }), i(1), t({ "", ".\\end{align*}" }) }
+      { t({ "\\begin{align*}", "\t" }), i(1), t({ "", "\\end{align*}" }) }
     ),
 
     parse_snippet({ trig = "beg", name = "begin{} / end{}" }, "\\begin{$1}\n\t$0\n\\end{$1}"),
@@ -44,7 +44,7 @@ function M.retrieve(not_math)
       t(")"),
       t(" = "),
       i(0),
-      t({ "", ".\\end{align*}" }),
+      t({ "", "\\end{align*}" }),
     }),
   }
 end
