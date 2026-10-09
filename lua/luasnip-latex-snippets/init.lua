@@ -128,6 +128,14 @@ M.setup_markdown = function()
   }
   vim.list_extend(filtered, normal_wA_tex)
 
+  -- bwA snippets (ali/beg/bigfun) open their own math environment and are
+  -- filtered out of markdown upstream. Re-add them so they trigger inside
+  -- markdown math zones (fixes #52). NOTE: bwA.retrieve's parameter is used as
+  -- the second part of `pipe({ conds.line_begin, <param> })`, so passing
+  -- `is_math` yields the intended `line_begin + is_math` condition.
+  local bwA_md = require("luasnip-latex-snippets.bwA").retrieve(is_math)
+  vim.list_extend(filtered, bwA_md)
+
   ls.add_snippets("markdown", filtered, {
     type = "autosnippets",
     default_priority = 0,
